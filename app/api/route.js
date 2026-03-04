@@ -5,26 +5,28 @@ export async function POST(req) {
   try {
     const { name, email, message } = await req.json();
 
-    // Configurer le transporteur SMTP
     const transporter = nodemailer.createTransport({
-      service: "gmail", // ou autre (Outlook, SMTP personnalisé)
+      service: "gmail",
       auth: {
         user: process.env.MAIL_USER,
         pass: process.env.MAIL_PASS,
       },
     });
 
-    // Envoyer l'email
     await transporter.sendMail({
-      from: email,
+      from: `"Portfolio Contact" <${process.env.MAIL_USER}>`,
       to: process.env.MAIL_USER,
+      replyTo: email,
       subject: `Nouveau message de ${name}`,
       text: message,
     });
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error(error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    console.error("Erreur email:", error);
+    return NextResponse.json(
+      { success: false, error: error.message },
+      { status: 500 }
+    );
   }
 }
