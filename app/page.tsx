@@ -11,7 +11,7 @@ export default function Home() {
         {/* Photo de profil */}
         <div className="flex justify-center mb-6">
           <Image
-            src="/photo.jpg"
+            src="/Photo.jpg"
             alt="Ma photo"
             width={180}
             height={180}
